@@ -11,9 +11,10 @@ const Movie = () =>{
     <div>
         <HeaderMovie />
         <MovieProvider>
+          <MovieList />
+          <Segment></Segment>
             <MovieTable />
             <Segment></Segment>
-            <MovieForm />
         </MovieProvider>
     </div>
   )

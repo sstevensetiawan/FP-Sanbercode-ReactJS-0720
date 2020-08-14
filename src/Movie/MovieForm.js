@@ -1,62 +1,49 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { MovieContext } from "./MovieContext"
 import { Form, Rating, Header } from 'semantic-ui-react'
 import Axios from 'axios'
 
 const MovieForm = () =>{
-    const [inputDataMovie, setInputDataMovie] = useState({
-        id: "",
-        created_at: "",
-        updated_at: "",
-        title: "",  
-        description: "", 
-        year: 2020, 
-        duration: 1, 
-        genre:"", 
-        rating:1,
-        review: "",
-        image_url: ""}
-    );
     const [movie, setMovie] = useContext(MovieContext);
     const [statusFormMovie, setStatusFormMovie] = useContext(MovieContext);
     const [indexOfFormMovie, setIndexOfFormMovie] = useContext(MovieContext);
-    const [dataFilm, setDataFilm] = useContext(MovieContext);
+    const [inputDataMovie, setInputDataMovie] = useContext(MovieContext);
 
     const handleChange = (event) =>{
         let typeOfInput = event.target.name
         switch (typeOfInput){
             case "title":{
-                setInputDataMovie({...dataFilm, title: event.target.value});
+                setInputDataMovie({...inputDataMovie, title: event.target.value});
                 break
             }
             case "description":{
-                setInputDataMovie({...dataFilm, description: event.target.value});
+                setInputDataMovie({...inputDataMovie, description: event.target.value});
                 break
             }
             case "year":{
                 if(event.target.value < 1){
-                    setInputDataMovie({...dataFilm, year: 1});
+                    setInputDataMovie({...inputDataMovie, year: 1});
                 }
                 else{
-                    setInputDataMovie({...dataFilm, year: event.target.value});
+                    setInputDataMovie({...inputDataMovie, year: event.target.value});
                 }
                 break
             }
             case "duration":{
                 if(event.target.value < 1){
-                    setInputDataMovie({...dataFilm, duration: 1});
+                    setInputDataMovie({...inputDataMovie, duration: 1});
                 }
                 else{
-                    setInputDataMovie({...dataFilm, duration: event.target.value});
+                    setInputDataMovie({...inputDataMovie, duration: event.target.value});
                 }
                 break
             } 
             case "genre":{
-                setInputDataMovie({...dataFilm, genre: event.target.value});
+                setInputDataMovie({...inputDataMovie, genre: event.target.value});
                 break
             }
             case "rating":{
-                setInputDataMovie({...dataFilm, rating: event.target.value})
+                setInputDataMovie({...inputDataMovie, rating: event.target.value})
                 break
             }
             default:{
@@ -67,12 +54,12 @@ const MovieForm = () =>{
 
     const handleSubmit = (event) =>{
         event.preventDefault()
-        let title = dataFilm.title
-        let description = dataFilm.description
-        let year = dataFilm.year.toString()
-        let duration = dataFilm.duration.toString()
-        let genre = dataFilm.genre
-        let rating = dataFilm.rating.toString()
+        let title = inputDataMovie.title
+        let description = inputDataMovie.description
+        let year = inputDataMovie.year
+        let duration = inputDataMovie.duration
+        let genre = inputDataMovie.genre
+        let rating = inputDataMovie.rating
         if (statusFormMovie === "Insert"){        
             Axios.post(`https://backendexample.sanbersy.com/api/movies`, {title:title, description: description, year: year, duration: duration, genre:genre, rating:rating})
             .then(res => {
@@ -90,14 +77,14 @@ const MovieForm = () =>{
         }else if(statusFormMovie === "Update"){
             Axios.put(`https://backendexample.sanbersy.com/api/movies/${indexOfFormMovie}`, {title: title, description: description, year: year, duration: duration, genre:genre, rating:rating})
             .then(() => {
-                let dataEditFilm = movie.find(el=> el.id === indexOfFormMovie)
-                dataEditFilm.title = title
-                dataEditFilm.description = description
-                dataEditFilm.year = year
-                dataEditFilm.duration = duration
-                dataEditFilm.genre = genre
-                dataEditFilm.rating = rating
-                setMovie([...dataEditFilm])
+                let dataFilm = movie.find(el=> el.id === indexOfFormMovie)
+                dataFilm.title = title
+                dataFilm.description = description
+                dataFilm.year = year
+                dataFilm.duration = duration
+                dataFilm.genre = genre
+                dataFilm.rating = rating
+                setMovie([...dataFilm])
             })
         }
         setStatusFormMovie("Insert")

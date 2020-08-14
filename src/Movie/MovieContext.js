@@ -4,6 +4,17 @@ export const MovieContext = createContext();
 
 export const MovieProvider = props => {
     const [movie, setMovie] = useState(null)
+    const [statusFormMovie, setStatusFormMovie] = useState("Insert");
+    const [indexOfFormMovie, setIndexOfFormMovie] = useState(-1)
+    const [inputDataMovie, setInputDataMovie] = useState({
+        title: "a",  
+        description: "a", 
+        year: 2020, 
+        duration: 1, 
+        genre:"a", 
+        rating:1,
+        review: "a",
+        image_url: "a"})
     // const [movie, setMovie] = useState([
     //     {
     //         id: "1",
@@ -31,43 +42,8 @@ export const MovieProvider = props => {
     //         image_url: "https://m.media-amazon.com/images/M/MV5BMTkxNDc3OTcxMV5BMl5BanBnXkFtZTgwODk2NjAzOTE@._V1_SY1000_CR0,0,673,1000_AL_.jpg"}
     // ]);
     return (
-        <MovieContext.Provider value={[movie, setMovie]}>
+        <MovieContext.Provider value={[movie, setMovie, statusFormMovie, setStatusFormMovie,indexOfFormMovie, setIndexOfFormMovie,inputDataMovie, setInputDataMovie]}>
             {props.children}
         </MovieContext.Provider>
     );
 };
-
-export const StatusFormMovie = props => {
-    const [statusFormMovie, setStatusFormMovie] = useState("Insert");
-    return (
-        <MovieContext.Provider value={[statusFormMovie, setStatusFormMovie]}>
-            {props.children}
-        </MovieContext.Provider>
-    );
-};
-
-export const IndexFormMovie = props => {
-    const [indexOfFormMovie, setIndexOfFormMovie] = useState(-1)
-    return (
-        <MovieContext.Provider value={[indexOfFormMovie, setIndexOfFormMovie]}>
-            {props.children}
-        </MovieContext.Provider>
-    );
-};
-
-export const DataFilm = props => {
-    const [dataFilm, setDataFilm] = useState({
-        title: "",  
-        description: "", 
-        year: 2020, 
-        duration: 1, 
-        genre:"", 
-        rating:1,
-        review: "",
-        image_url: ""})
-    return (
-        <MovieContext.Provider value ={[dataFilm, setDataFilm]}>
-            {props.children}
-        </MovieContext.Provider>
-    )
-}

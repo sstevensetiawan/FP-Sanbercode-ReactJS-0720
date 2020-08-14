@@ -7,26 +7,23 @@ const MovieTable = () => {
     const [movie, setMovie] = useContext(MovieContext)
     const [statusFormMovie, setStatusFormMovie] = useContext(MovieContext);
     const [indexOfFormMovie, setIndexOfFormMovie] = useContext(MovieContext);
-    const [dataFilm, setDataFilm] = useContext(MovieContext);
+    const [inputDataMovie, setInputDataMovie] = useContext(MovieContext);
 
     const handleEdit = (event) =>{
         let idDataFilm = parseInt(event.target.value)
-        let dataEditFilm = movie.find(x=> x.id === idDataFilm)
-        setDataFilm({title: dataEditFilm.title, description: dataEditFilm.description, year: dataEditFilm.year, duration: dataEditFilm.duration, genre: dataEditFilm.genre, rating: dataEditFilm.rating})
+        let dataFilm = movie.find(x=> x.id === idDataFilm)
+        setInputDataMovie({title: dataFilm.title, description: dataFilm.description, year: dataFilm.year, duration: dataFilm.duration, genre: dataFilm.genre, rating: dataFilm.rating})
         setIndexOfFormMovie(idDataFilm)
         setStatusFormMovie("Update")
     }
 
     const handleDelete = (event) => {
         let idDataFilm = parseInt(event.target.value)
-    
         let dataDeleteFilm = movie.filter(el => el.id !== idDataFilm)
-    
         Axios.delete(`https://backendexample.sanbersy.com/api/movies/${idDataFilm}`)
         .then(res => {
           console.log(res)
         })
-              
         setMovie([...dataDeleteFilm])
         
       }
@@ -66,7 +63,7 @@ const MovieTable = () => {
                             <Header as='h5' textAlign='center'>{item.title}</Header>
                         </Table.Cell>
                         <Table.Cell textAlign='center' style={{width:'150px'}}>
-                        {item.duration} Minutes
+                        {item.id} Minutes
                         </Table.Cell>
                         <Table.Cell textAlign='center' style={{width:'150px'}}>
                         {item.genre}
