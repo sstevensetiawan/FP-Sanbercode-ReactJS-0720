@@ -1,13 +1,13 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import Movie from './Movie/Movie';
-import Games from './Games/Games'
+import Container from './Container.js'
+import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <Games />
-    </div>
+    <Router>
+      <Container />
+    </Router>
   );
 }
 

@@ -1,9 +1,11 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { DataGamesContext, StatusFormGamesContext, IndexOfGamesContext, InputDataGamesContext } from "./GamesContext";
 import { Form, Header, Checkbox } from 'semantic-ui-react'
 import Axios from 'axios'
 
 const GamesForm = () =>{
+    const [cBSinglePlayer, setCBSinglePlayer] = useState(false)
+    const [cBMultiPlayer, setCBMultiPlayer] = useState(true)
     const [dataGames, setDataGames] = useContext(DataGamesContext)
     const [statusFormGames, setStatusFormGames] = useContext(StatusFormGamesContext)
     const [indexOfFormGames, setIndexOfFormGames] = useContext(IndexOfGamesContext)
@@ -33,20 +35,24 @@ const GamesForm = () =>{
                 break
             }
             case "singleplayer":{
-                if(inputDataGames.singleplayer===1){
-                    setInputDataGames({...inputDataGames, singleplayer: null});
+                if(cBSinglePlayer===true){
+                    setInputDataGames({...inputDataGames, singleplayer: 0});
+                    setCBSinglePlayer(false)
                 }
                 else{
                     setInputDataGames({...inputDataGames, singleplayer: 1});
+                    setCBSinglePlayer(true)
                 }
                 break
             }
             case "multiplayer":{
-                if(this.checked===true){
-                    setInputDataGames({...inputDataGames, multiplayer: null});
+                if(cBMultiPlayer===true){
+                    setInputDataGames({...inputDataGames, multiplayer: 0});
+                    setCBMultiPlayer(false)
                 }
                 else{
                     setInputDataGames({...inputDataGames, multiplayer: 1});
+                    setCBMultiPlayer(true)
                 }
                 break
             }
@@ -141,8 +147,8 @@ const GamesForm = () =>{
                 </Form.Group>
                 <Form.Group inline>
                     <label>Mode : </label>
-                    <Form.Field control={Checkbox} label='Singleplayer' name='singleplayer' value= {inputDataGames.singleplayer} checked={inputDataGames.singleplayer === 1} onChange={handleChange} />
-                    <Form.Field control={Checkbox} label='Multiplayer' name='multiplayer' value={inputDataGames.multiplayer} checked={inputDataGames.multiplayer === 1} onChange={handleChange} />
+                    <Form.Field control={Checkbox} label='Singleplayer' name='singleplayer' value={cBSinglePlayer} checked={cBSinglePlayer} onChange={handleChange} />
+                    <Form.Field control={Checkbox} label='Multiplayer' name='multiplayer' value={cBMultiPlayer} checked={cBMultiPlayer} onChange={handleChange} />
                 </Form.Group>
                 <Form.Button>Submit</Form.Button>
             </Form>

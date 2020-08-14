@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Card, Image, Icon } from 'semantic-ui-react'
+import { Card, Image, Icon, Button } from 'semantic-ui-react'
 import Axios from 'axios'
 import { DataGamesContext, StatusFormGamesContext, IndexOfGamesContext, InputDataGamesContext } from "./GamesContext";
 
@@ -37,8 +37,8 @@ const MovieList = () =>{
               return (
                 <Card style={{width:'300px'}}>
                     <Image src={item.image_url} style={{width:'300px', height:'400px'}} widths='equal'/>
-                    <Card.Content>
-                        <Card.Header>{item.name}</Card.Header>
+                    <Card.Content extra style={{height:'100px'}} >
+                        <Card.Header>{item.name} (<b>{item.release}</b>)</Card.Header>
                     </Card.Content>
                     <Card.Content extra>
                         <Card.Meta>
@@ -47,6 +47,9 @@ const MovieList = () =>{
                         <Card.Meta>
                             <Icon name='game' /><span className='Platform'>{item.platform}</span>
                         </Card.Meta>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Button fluid value={item.id}>View Detail</Button>
                     </Card.Content>
                 </Card>
               )

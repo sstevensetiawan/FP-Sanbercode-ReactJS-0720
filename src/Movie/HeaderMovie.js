@@ -8,7 +8,7 @@ export default class HeaderMovie extends Component {
         <br/>
         <Header as='h2' icon textAlign='center'>
         <Icon name='film' circular />
-        <Header.Content>Movies</Header.Content>
+        <Header.Content>Movie</Header.Content>
         </Header>
         <br/>
       </div>

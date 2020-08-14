@@ -38,6 +38,8 @@ export const InputDataGamesContext = createContext();
 export const InputDataGamesProvider = props => {
     const [inputDataGames, setInputDataGames] = useState({
         id:-1,
+        created_at : "",
+        updated_at : "",
         name:"",
         genre:"",
         singleplayer:null,

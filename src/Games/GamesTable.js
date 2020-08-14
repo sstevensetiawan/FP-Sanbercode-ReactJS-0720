@@ -59,15 +59,15 @@ const GamesTable = () => {
     return (
         <>
         <Header as='h1' textAlign='center'>Games Table</Header>
-        <Table celled padded style={{width:'75%', margin:'0 auto'}}>
+        <Table celled padded style={{width:'80%', margin:'0 auto'}}>
             <Table.Header>
                 <Table.Row textAlign='center'>
                     <Table.HeaderCell>Image</Table.HeaderCell>
                     <Table.HeaderCell>Title</Table.HeaderCell>
+                    <Table.HeaderCell>Release</Table.HeaderCell>
                     <Table.HeaderCell>Genre</Table.HeaderCell>
                     <Table.HeaderCell>Mode</Table.HeaderCell>
                     <Table.HeaderCell>Platform</Table.HeaderCell>
-                    <Table.HeaderCell>Release</Table.HeaderCell>
                     <Table.HeaderCell>Action</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -82,6 +82,9 @@ const GamesTable = () => {
                         <Table.Cell style={{width:'200px'}} >
                             <Header as='h5' textAlign='center'>{item.name}</Header>
                         </Table.Cell>
+                        <Table.Cell textAlign='center'>
+                            {item.release}
+                        </Table.Cell>
                         <Table.Cell textAlign='center' style={{width:'200px'}} >
                             {item.genre} 
                         </Table.Cell>
@@ -89,11 +92,8 @@ const GamesTable = () => {
                             Singleplayer : {item.singlePlayer === 1 ? "Yes" : "No"}<br/>
                             Multiplayer : {item.multiplayer === 1 ? "Yes" : "No"}
                         </Table.Cell>
-                        <Table.Cell>
+                        <Table.Cell textAlign='center'>
                             {item.platform}
-                        </Table.Cell>
-                        <Table.Cell>
-                            {item.release}
                         </Table.Cell>
                         <Table.Cell style={{width:'235px'}} >
                             <Button.Group>
