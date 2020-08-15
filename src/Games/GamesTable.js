@@ -1,7 +1,8 @@
 import React, { useContext,useEffect } from "react";
-import { Header, Table, Image, Button } from 'semantic-ui-react'
+import { Header, Table, Image, Button, Icon } from 'semantic-ui-react'
 import Axios from 'axios'
 import { DataGamesContext, StatusFormGamesContext, IndexOfGamesContext, InputDataGamesContext } from "./GamesContext";
+import { Link } from 'react-router-dom'
 
 const GamesTable = () => {
     const [dataGames, setDataGames] = useContext(DataGamesContext)
@@ -30,18 +31,18 @@ const GamesTable = () => {
 
     const handleEdit = (event) =>{
         let idDataGames = parseInt(event.target.value)
-        let dataEditFilm = dataGames.find(x=> x.id === idDataGames)
+        let dataEditGames = dataGames.find(x=> x.id === idDataGames)
         setInputDataGames({
-            id : dataEditFilm.id,
-            created_at : dataEditFilm.created_at,
-            updated_at : dataEditFilm.updated_at,
-            name : dataEditFilm.name,
-            genre : dataEditFilm.genre,
-            singleplayer : dataEditFilm.singlePlayer,
-            multiplayer : dataEditFilm.multiplayer,
-            platform : dataEditFilm.platform,
-            release : dataEditFilm.release,
-            image_url : dataEditFilm.image_url})
+            id : dataEditGames.id,
+            created_at : dataEditGames.created_at,
+            updated_at : dataEditGames.updated_at,
+            name : dataEditGames.name,
+            genre : dataEditGames.genre,
+            singleplayer : dataEditGames.singlePlayer,
+            multiplayer : dataEditGames.multiplayer,
+            platform : dataEditGames.platform,
+            release : dataEditGames.release,
+            image_url : dataEditGames.image_url})
         setIndexOfFormGames(idDataGames)
         setStatusFormGames("Update")
     }
@@ -59,16 +60,21 @@ const GamesTable = () => {
     return (
         <>
         <Header as='h1' textAlign='center'>Games Table</Header>
-        <Table celled padded style={{width:'80%', margin:'0 auto'}}>
+        <Table celled structured style={{width:'80%', margin:'0 auto 50px auto'}}>
             <Table.Header>
                 <Table.Row textAlign='center'>
-                    <Table.HeaderCell>Image</Table.HeaderCell>
-                    <Table.HeaderCell>Title</Table.HeaderCell>
-                    <Table.HeaderCell>Release</Table.HeaderCell>
-                    <Table.HeaderCell>Genre</Table.HeaderCell>
-                    <Table.HeaderCell>Mode</Table.HeaderCell>
-                    <Table.HeaderCell>Platform</Table.HeaderCell>
-                    <Table.HeaderCell>Action</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Image</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Title</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Release</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Genre</Table.HeaderCell>
+                    <Table.HeaderCell colSpan='2'>Mode</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Platform</Table.HeaderCell>
+                    <Table.HeaderCell rowSpan='2'>Action</Table.HeaderCell>
+                </Table.Row>
+                
+                <Table.Row textAlign='center'>
+                    <Table.HeaderCell>Singleplayer</Table.HeaderCell>
+                    <Table.HeaderCell>Multiplayer</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -88,16 +94,20 @@ const GamesTable = () => {
                         <Table.Cell textAlign='center' style={{width:'200px'}} >
                             {item.genre} 
                         </Table.Cell>
-                        <Table.Cell textAlign='center' style={{width:'150px'}} >
-                            Singleplayer : {item.singlePlayer === 1 ? "Yes" : "No"}<br/>
-                            Multiplayer : {item.multiplayer === 1 ? "Yes" : "No"}
+                        <Table.Cell textAlign='center' style={{width:'100px'}} >
+                            {item.singlePlayer === 1 ? <Icon color='green' name='checkmark' size='large' /> : <Icon color='red' name='x' size='large' /> }
+                        </Table.Cell>
+                        <Table.Cell textAlign='center' style={{width:'100px'}} >
+                            {item.multiplayer === 1 ? <Icon color='green' name='checkmark' size='large' /> : <Icon color='red' name='x' size='large' /> }
                         </Table.Cell>
                         <Table.Cell textAlign='center'>
                             {item.platform}
                         </Table.Cell>
-                        <Table.Cell style={{width:'235px'}} >
+                        <Table.Cell style={{width:'230px'}} >
                             <Button.Group>
-                                <Button basic color='green' style={{width:'100px'}} onClick={handleEdit} value={item.id}>Update</Button>
+                                <Link to="/UpdateGamesForm">
+                                    <Button basic color='green' style={{width:'100px'}} onClick={handleEdit} value={item.id}>Update</Button>
+                                </Link>
                                 <Button basic color='red' style={{width:'100px'}} onClick={handleDelete} value={item.id}>Delete</Button>
                             </Button.Group>
                         </Table.Cell>
@@ -105,6 +115,24 @@ const GamesTable = () => {
                     )
                 })}
             </Table.Body>
+            <Table.Footer fullWidth>
+                <Table.Row>
+                    <Table.HeaderCell />
+                    <Table.HeaderCell colSpan='7'>
+                    <Link to="/InsertGamesForm">
+                        <Button
+                            floated='right'
+                            icon
+                            labelPosition='left'
+                            primary
+                            size='small'
+                        >
+                            <Icon name='gamepad' /> Insert Games
+                        </Button>
+                    </Link>
+                    </Table.HeaderCell>
+                </Table.Row>
+            </Table.Footer>
         </Table>
         </>
     )

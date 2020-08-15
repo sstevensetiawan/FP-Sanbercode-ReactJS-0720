@@ -1,9 +1,10 @@
 import React, { useContext } from "react"
 import { DataMovieContext, StatusFormMovieContext, IndexOfMovieContext, InputDataMovieContext } from "./MovieContext";
-import { Form, Header, Checkbox, Rating } from 'semantic-ui-react'
+import { Form, Header, Rating } from 'semantic-ui-react'
 import Axios from 'axios'
+import { Link } from 'react-router-dom'
 
-const MovieForm = () =>{
+const InsertMovieForm = () =>{
     const [dataMovie, setDataMovie] = useContext(DataMovieContext)
     const [statusFormMovie, setStatusFormMovie] = useContext(StatusFormMovieContext)
     const [indexOfFormMovie, setIndexOfFormMovie] = useContext(IndexOfMovieContext)
@@ -94,29 +95,6 @@ const MovieForm = () =>{
                     image_url : image_url
                   }])
             })
-        }else if(statusFormMovie === "Update"){
-            Axios.put(`https://backendexample.sanbersy.com/api/movies/${indexOfFormMovie}`, {
-                title : title,
-                description : description,
-                year : year,
-                duration : duration,
-                genre : genre,
-                rating : rating,
-                review : review,
-                image_url : image_url
-            })
-            .then(() => {
-                let dataEditMovie = dataMovie.find(el=> el.id === indexOfFormMovie)
-                dataEditMovie.title = title
-                dataEditMovie.description = description
-                dataEditMovie.year = year
-                dataEditMovie.duration = duration
-                dataEditMovie.genre = genre
-                dataEditMovie.rating = rating
-                dataEditMovie.review = review
-                dataEditMovie.image_url = image_url
-                setDataMovie([...dataMovie])
-            })
         }
         setStatusFormMovie("Insert")
         setIndexOfFormMovie(-1)
@@ -137,8 +115,8 @@ const MovieForm = () =>{
 
     return(
         <>
-            <Header as='h1' textAlign='center'>Movie Form</Header>
-            <Form style={{width:'1000px', margin:'0 auto'}} onSubmit={handleSubmit}>
+            <Header as='h1' textAlign='center'>Insert Movie Form</Header>
+            <Form style={{width:'1000px', margin:'0 auto 50px'}} onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
                 <Form.Input fluid label='Movie Title' placeholder='Movie Title' name='title' value={inputDataMovie.title} onChange={handleChange} />
                 </Form.Group>
@@ -159,9 +137,14 @@ const MovieForm = () =>{
                 <Form.TextArea label='Description' placeholder='Tell us more about the movie...' name='description' value={inputDataMovie.description} onChange={handleChange} />
                 <Form.TextArea label='Review' placeholder='Tell us more about your opinion...' name='review' value={inputDataMovie.review} onChange={handleChange} />
                 <Form.Button>Submit</Form.Button>
+                <Link to="/MoviesTable">
+                    <Form.Button>
+                        Back
+                    </Form.Button>
+                </Link>
             </Form>
         </>
     )
 };
 
-export default MovieForm
+export default InsertMovieForm

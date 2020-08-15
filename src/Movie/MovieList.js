@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Card, Image, Icon, Rating, Button } from 'semantic-ui-react'
 import Axios from 'axios'
-import { DataMovieContext, StatusFormMovieContext, IndexOfMovieContext, InputDataMovieContext } from "./MovieContext";
+import { DataMovieContext, StatusFormMovieContext, IndexOfMovieContext, InputDataMovieContext } from "./MovieContext"
+import { Link } from 'react-router-dom'
 
 const MovieList = () =>{
   const [dataMovie, setDataMovie] = useContext(DataMovieContext)
@@ -9,6 +10,23 @@ const MovieList = () =>{
   const [indexOfFormMovie, setIndexOfFormMovie] = useContext(IndexOfMovieContext)
   const [inputDataMovie, setInputDataMovie] = useContext(InputDataMovieContext)
 
+
+    const handleView = (event) =>{
+      let idDataGames = parseInt(event.target.value)
+      let dataEditMovie = dataMovie.find(x=> x.id === idDataGames)
+      setInputDataMovie({
+          id : dataEditMovie.id,
+          created_at : dataEditMovie.created_at,
+          updated_at : dataEditMovie.updated_at,
+          title : dataEditMovie.title,
+          rating : dataEditMovie.rating,
+          genre : dataEditMovie.genre,
+          year : dataEditMovie.year,
+          duration : dataEditMovie.duration,
+          description : dataEditMovie.description,
+          review : dataEditMovie.review,
+          image_url : dataEditMovie.image_url})
+  }
     useEffect( () => {
       if (dataMovie === null){
         Axios.get(`https://backendexample.sanbersy.com/api/movies`)
@@ -57,7 +75,7 @@ const MovieList = () =>{
               return (
                 <Card style={{width:'300px'}}>
                     <Image src={item.image_url} style={{width:'300px', height:'400px'}} widths='equal'/>
-                    <Card.Content extra style={{height:'100px'}} >
+                    <Card.Content extra style={{height:'80px'}} >
                         <Card.Header>{item.title}<br/>(<b>{item.year}</b>)</Card.Header>
                     </Card.Content>
                     <Card.Content style={{height:'80px'}} extra >
@@ -72,7 +90,9 @@ const MovieList = () =>{
                       </Card.Meta>
                     </Card.Content>
                     <Card.Content extra>
-                      <Button fluid value={item.id}>View Detail</Button>
+                      <Link to="/MoviesDetail">
+                      <Button fluid value={item.id} onClick={handleView}>View Detail</Button>
+                      </Link>
                     </Card.Content>
                 </Card>
               )

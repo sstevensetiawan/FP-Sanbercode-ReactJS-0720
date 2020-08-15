@@ -2,10 +2,9 @@ import React, { useContext, useState } from "react"
 import { DataGamesContext, StatusFormGamesContext, IndexOfGamesContext, InputDataGamesContext } from "./GamesContext";
 import { Form, Header, Checkbox } from 'semantic-ui-react'
 import Axios from 'axios'
+import { Link } from 'react-router-dom'
 
-const GamesForm = () =>{
-    const [cBSinglePlayer, setCBSinglePlayer] = useState(false)
-    const [cBMultiPlayer, setCBMultiPlayer] = useState(true)
+const InsertGamesForm = () =>{
     const [dataGames, setDataGames] = useContext(DataGamesContext)
     const [statusFormGames, setStatusFormGames] = useContext(StatusFormGamesContext)
     const [indexOfFormGames, setIndexOfFormGames] = useContext(IndexOfGamesContext)
@@ -35,25 +34,23 @@ const GamesForm = () =>{
                 break
             }
             case "singleplayer":{
-                if(cBSinglePlayer===true){
-                    setInputDataGames({...inputDataGames, singleplayer: 0});
-                    setCBSinglePlayer(false)
+                if(event.target.value <= 1){
+                    event.target.value = 1
                 }
-                else{
-                    setInputDataGames({...inputDataGames, singleplayer: 1});
-                    setCBSinglePlayer(true)
+                else if(event.target.value >= 0){
+                    event.target.value = 0
                 }
+                setInputDataGames({...inputDataGames, singleplayer : event.target.value});
                 break
             }
             case "multiplayer":{
-                if(cBMultiPlayer===true){
-                    setInputDataGames({...inputDataGames, multiplayer: 0});
-                    setCBMultiPlayer(false)
+                if(event.target.value <= 1){
+                    event.target.value = 1
                 }
-                else{
-                    setInputDataGames({...inputDataGames, multiplayer: 1});
-                    setCBMultiPlayer(true)
+                else if(event.target.value >= 0){
+                    event.target.value = 0
                 }
+                setInputDataGames({...inputDataGames, multiplayer : event.target.value});
                 break
             }
             default:{
@@ -94,27 +91,6 @@ const GamesForm = () =>{
                     image_url : image_url
                   }])
             })
-        }else if(statusFormGames === "Update"){
-            Axios.put(`https://backendexample.sanbersy.com/api/games/${indexOfFormGames}`, {
-                name : name, 
-                genre: genre, 
-                release: release, 
-                singlePlayer : singleplayer, 
-                multiplayer : multiplayer,
-                platform : platform,
-                image_url : image_url
-            })
-            .then(() => {
-                let dataEditGames = dataGames.find(el=> el.id === indexOfFormGames)
-                dataEditGames.name = name
-                dataEditGames.genre = genre
-                dataEditGames.release = release
-                dataEditGames.singlePlayer = singleplayer
-                dataEditGames.multiplayer = multiplayer
-                dataEditGames.platform = platform
-                dataEditGames.image_url = image_url
-                setDataGames([...dataGames])
-            })
         }
         setStatusFormGames("Insert")
         setIndexOfFormGames(-1)
@@ -122,24 +98,25 @@ const GamesForm = () =>{
             id:-1,
             name:"",
             genre:"",
-            singleplayer:null,
-            multiplayer:null,
+            singleplayer:0,
+            multiplayer:0,
             platform:"",
             release:"2010",
             image_url:""
         })
+        setDataGames(null)
     }
 
     return(
         <>
-            <Header as='h1' textAlign='center'>Games Form</Header>
-            <Form style={{width:'1000px', margin:'0 auto'}} onSubmit={handleSubmit}>
+            <Header as='h1' textAlign='center'>Insert Games Form</Header>
+            <Form style={{width:'1000px', margin:'0 auto 50px'}} onSubmit={handleSubmit}>
                 <Form.Group widths='equal'>
                     <Form.Input fluid label='Game Title' placeholder='Game Title' name='name' value={inputDataGames.name} onChange={handleChange} />
                 </Form.Group>
                 <Form.Group widths='equal'>
                     <Form.Input fluid label='Game Genre' placeholder='Game Genre' name='genre' value={inputDataGames.genre} onChange={handleChange} />
-                    <Form.Input fluid label='Game Release' placeholder='Game Release' name='release' value={inputDataGames.release} onChange={handleChange} />
+                    <Form.Input fluid label='Game Release' placeholder='Game Release' name='release' type='number' value={inputDataGames.release} onChange={handleChange} />
                 </Form.Group>
                 <Form.Group widths='equal'>
                     <Form.Input fluid label='Game Platform' placeholder='Game Platform' name='platform' value={inputDataGames.platform} onChange={handleChange} />
@@ -147,13 +124,18 @@ const GamesForm = () =>{
                 </Form.Group>
                 <Form.Group inline>
                     <label>Mode : </label>
-                    <Form.Field control={Checkbox} label='Singleplayer' name='singleplayer' value={cBSinglePlayer} checked={cBSinglePlayer} onChange={handleChange} />
-                    <Form.Field control={Checkbox} label='Multiplayer' name='multiplayer' value={cBMultiPlayer} checked={cBMultiPlayer} onChange={handleChange} />
+                    <Form.Input fluid label='Singleplayer' placeholder='Singleplayer' name='singleplayer' type='number' value={inputDataGames.singleplayer} onChange={handleChange} />
+                    <Form.Input fluid label='Multiplayer' placeholder='Multiplayer' name='multiplayer' type='number' value={inputDataGames.multiplayer} onChange={handleChange} />
                 </Form.Group>
                 <Form.Button>Submit</Form.Button>
+                <Link to="/GamesTable">
+                    <Form.Button>
+                        Back
+                    </Form.Button>
+                </Link>
             </Form>
         </>
     )
 };
 
-export default GamesForm
+export default InsertGamesForm

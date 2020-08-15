@@ -1,7 +1,8 @@
 import React, { useContext,useEffect } from "react";
-import { Header, Table, Image, Button, Rating } from 'semantic-ui-react'
+import { Header, Table, Image, Button, Rating, Icon } from 'semantic-ui-react'
 import Axios from 'axios'
 import { DataMovieContext, StatusFormMovieContext, IndexOfMovieContext, InputDataMovieContext } from "./MovieContext";
+import { Link } from 'react-router-dom'
 
 const MovieTable = () => {
     const [dataMovie, setDataMovie] = useContext(DataMovieContext)
@@ -63,7 +64,7 @@ const MovieTable = () => {
     return (
         <>
         <Header as='h1' textAlign='center'>Movie Table</Header>
-        <Table celled padded style={{width:'85%', margin:'0 auto'}}>
+        <Table celled padded style={{width:'85%', margin:'0 auto 50px auto'}}>
             <Table.Header>
                 <Table.Row textAlign='center'>
                     <Table.HeaderCell>Image</Table.HeaderCell>
@@ -104,7 +105,9 @@ const MovieTable = () => {
                         </Table.Cell>
                         <Table.Cell style={{width:'235px'}} >
                             <Button.Group>
-                                <Button basic color='green' style={{width:'100px'}} onClick={handleEdit} value={item.id}>Update</Button>
+                                <Link to="/UpdateMovieForm">
+                                    <Button basic color='green' style={{width:'100px'}} onClick={handleEdit} value={item.id}>Update</Button>
+                                </Link>
                                 <Button basic color='red' style={{width:'100px'}} onClick={handleDelete} value={item.id}>Delete</Button>
                             </Button.Group>
                         </Table.Cell>
@@ -112,6 +115,26 @@ const MovieTable = () => {
                     )
                 })}
             </Table.Body>
+            
+            <Table.Footer fullWidth>
+                <Table.Row>
+                    <Table.HeaderCell />
+                    <Table.HeaderCell colSpan='8'>
+                        <Link to="/InsertMovieForm">
+
+                            <Button
+                            floated='right'
+                            icon
+                            labelPosition='left'
+                            primary
+                            size='small'
+                        >
+                            <Icon name='film' /> Insert Movie
+                        </Button>
+                        </Link>
+                    </Table.HeaderCell>
+                </Table.Row>
+            </Table.Footer>
         </Table>
         </>
     )

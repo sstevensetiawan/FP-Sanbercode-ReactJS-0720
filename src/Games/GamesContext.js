@@ -42,8 +42,8 @@ export const InputDataGamesProvider = props => {
         updated_at : "",
         name:"",
         genre:"",
-        singleplayer:null,
-        multiplayer:null,
+        singleplayer:0,
+        multiplayer:0,
         platform:"",
         release:"2010",
         image_url:""})
