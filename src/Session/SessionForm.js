@@ -70,6 +70,7 @@ const DividerExampleVerticalForm = () => {
                 setDataSession({...dataSession, password : password})
             }
         })
+        
     }
 
     const handleSubmitRegister = (event) =>{

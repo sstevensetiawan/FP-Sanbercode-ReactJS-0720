@@ -1,5 +1,5 @@
-import React, { useContext,useEffect } from "react";
-import { Header, Table, Image, Button, Rating, Icon } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from "react";
+import { Header, Table, Image, Button, Rating, Icon, Select, Form, Segment } from 'semantic-ui-react'
 import Axios from 'axios'
 import { DataMovieContext, StatusFormMovieContext, IndexOfMovieContext, InputDataMovieContext } from "./MovieContext";
 import { Link } from 'react-router-dom'
@@ -9,8 +9,17 @@ const MovieTable = () => {
     const [statusFormMovie, setStatusFormMovie] = useContext(StatusFormMovieContext)
     const [indexOfFormMovie, setIndexOfFormMovie] = useContext(IndexOfMovieContext)
     const [inputDataMovie, setInputDataMovie] = useContext(InputDataMovieContext)
+    const [filtering, setFilter] = useState(null)
+    const [check, setCheck] = useState(null)
 
-    useEffect( () => {
+
+    const filterOption = [
+        { key: 'title', value: 'title', text: 'Title' },
+        { key: 'genre', value: 'genre', text: 'Genre' },
+        { key: 'description', value: 'description', text: 'Description' },
+      ]
+
+    useEffect( (filter,check) => {
         if (dataMovie === null){
           Axios.get(`https://backendexample.sanbersy.com/api/movies`)
           .then(res => {
@@ -59,8 +68,7 @@ const MovieTable = () => {
           console.log(res)
         })
         setDataMovie([...dataDeleteMovie])
-      }
-
+    }
     return (
         <>
         <Header as='h1' textAlign='center'>Movie Table</Header>
